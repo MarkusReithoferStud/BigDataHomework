@@ -75,5 +75,5 @@ def is_bitonic (X):
 
 #print(is_bitonic([1,2,3,4,5,6] ))
 #print(is_bitonic([4,3,2,1,2,3]))
-print(is_bitonic([4,3,2,1,2,3,2,1]))
+#print(is_bitonic([4,3,2,1,2,3,2,1]))
 #print(is_bitonic([4,2,2,1,3,4,4,5]))
