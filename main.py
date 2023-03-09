@@ -1,24 +1,26 @@
 def depths(s):
-    stack = []
-    ret= []
-    depth = 0
-
-    for i in s:
+    ret = []
+    balance = 0
+    depth = 1
+    counter = 1
+    if s[0] == ")":
+        return None
+    for i in list(s):
         if i == "(":
-            stack.append(i)
-
+            balance += 1
         if i == ")":
-            stack.pop()
+            balance -= 1
+        if i == "(" and  == "(":
             depth += 1
-
-        if len(stack) == 0 and depth != 0:
+        if balance == 0:
             ret.append(depth)
-            depth = 0
+        counter += 1
+
 
     return ret
 
-print(depths("(((((((()))))))) ()(( )) ((( )()()))" ))
-
+print(depths("(((((((())))))))()(())((()()()))"))
+print("-------------------")
 import time
 
 
@@ -75,5 +77,5 @@ def is_bitonic (X):
 
 #print(is_bitonic([1,2,3,4,5,6] ))
 #print(is_bitonic([4,3,2,1,2,3]))
-#print(is_bitonic([4,3,2,1,2,3,2,1]))
+print(is_bitonic([4,3,2,1,2,3,2,1]))
 #print(is_bitonic([4,2,2,1,3,4,4,5]))
