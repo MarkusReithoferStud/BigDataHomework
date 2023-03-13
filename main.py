@@ -59,18 +59,37 @@ def cshift (X, k):
 
 print(cshift([1, 2, 3, 4, 5], 2))
 print("-------------")
+
 def is_bitonic (X):
+    #This if check is here to check if the first element of the list is also the minimum element of the list
+    #if not, then the list will be split and added together as a list which starts in that way
     if X[0] > min(X):
         lowIndex = X.index(min(X))
         firstList = X[:lowIndex]
         secondList = X[lowIndex:]
         X = secondList + firstList
-        print(X)
+        #print(X)
 
-
+    #this part is here to check how many changes the list has e.g 1,2,3,2,1,2,3 woudl have 2 changes
+    #1,2,3,4,3,2,1 would have 1 change
+    #is the change counter greater than 1, the given sequence is not bitonic
+    counter = 0
     pre = X[0]
     for i in X:
-        pass
+        if counter % 2 == 0:
+            if i < pre:
+                counter += 1
+                pre = i
+            if i >= pre:
+                pre = i
+        if counter % 2 == 1:
+            if i > pre:
+                counter += 1
+                pre = i
+            if i < pre:
+                pre = i
+
+    return True if counter <= 1 else False
 
 
 
