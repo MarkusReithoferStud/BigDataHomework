@@ -1,28 +1,36 @@
 def depths(s):
+    #remove whitespaces
+    s = "".join(s.split())
     ret = []
     balance = 0
     depth = 1
-    counter = 1
+    counter = 0
     if s[0] == ")":
         return None
-    for i in list(s):
-        if i == "(":
+    s += " "
+    #run through all elements and also check the i+1 element for comparison
+    for i in range(len(s)-1):
+        current_element = s[i]
+        next_element = s[i+1]
+        if current_element == "(":
             balance += 1
-        if i == ")":
+        if current_element == ")":
             balance -= 1
-        if i == "(" and  == "(":
+        if current_element == "(" and next_element == "(" and counter < len(s):
             depth += 1
         if balance == 0:
             ret.append(depth)
+            depth = 1
         counter += 1
-
-
+    if balance != 0:
+        return None
     return ret
 
-print(depths("(((((((())))))))()(())((()()()))"))
+print(depths("(()(())) (( )) ()((()()()))"))
+print(depths("()(())() (()(())((()))"))
+print(depths("(((((((()))))))) ()(( )) ((( )()()))"))
+print(depths(") ( ) ("))
 print("-------------------")
-import time
-
 
 def cshift (X, k):
     # Check that k meets the condition
@@ -75,6 +83,7 @@ def is_bitonic (X):
     #is the change counter greater than 1, the given sequence is not bitonic
     counter = 0
     pre = X[0]
+    # % operator is used to check whether the sequence is declining or ascending
     for i in X:
         if counter % 2 == 0:
             if i < pre:
@@ -93,8 +102,8 @@ def is_bitonic (X):
 
 
 
-
-#print(is_bitonic([1,2,3,4,5,6] ))
-#print(is_bitonic([4,3,2,1,2,3]))
+print(is_bitonic([1,2,3,4,5,6] ))
+print(is_bitonic([4,3,2,1,2,3]))
 print(is_bitonic([4,3,2,1,2,3,2,1]))
-#print(is_bitonic([4,2,2,1,3,4,4,5]))
+print(is_bitonic([4,2,2,1,3,4,4,5]))
+print(is_bitonic([1,2,3,4,0,2]))
