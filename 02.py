@@ -27,6 +27,7 @@ def rowRead():
     #data collection
     with open('wine.tsv', 'r') as data:
         header = data.readline().strip().split('\t')
+        squareList = ([0] * (len(header)-1))
         t = ([0] * (len(header)-1))
         t.append([0,0,0])
         #print(t)
@@ -38,6 +39,7 @@ def rowRead():
             for i in line:
                 try:
                     t[counter] += float(i)
+                    squareList[counter] += float(i)*float(i)
                     counter += 1
                     #print(t)
                 except:
@@ -48,16 +50,19 @@ def rowRead():
                     if i == 'C':
                         t[-1][2] += 1
 
-        numb = 0
 
+        index = 0
         #caclculation
-        print("column".ljust(10), "mean".rjust(10), "std".rjust(7))
+        print("column".ljust(10), "mean".rjust(10), "std".rjust(10))
         for i in t:
             try:
-                columnHeader = header[numb]
-                meanHeader = str(round(t[numb] / rowcount, 4))
-                print(columnHeader.ljust(10), meanHeader.rjust(10))
-                numb += 1
+                columnHeader = header[index]
+                meanHeader = str(round(t[index] / rowcount, 4))
+                secondpart = t[index]/rowcount * t[index]/rowcount
+                firstpart= squareList[index]/rowcount
+                stdev = str(round(math.sqrt(firstpart-secondpart),4 ))
+                print(columnHeader.ljust(10), meanHeader.rjust(10), stdev.rjust(10))
+                index +=1
             except:
 
                 print('\n'"class".ljust(10), "frq".rjust(0))
@@ -67,3 +72,4 @@ def rowRead():
 
 
 rowRead()
+#https://stackoverflow.com/questions/1174984/how-to-efficiently-calculate-a-running-standard-deviation
