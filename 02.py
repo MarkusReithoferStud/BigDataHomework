@@ -1,4 +1,5 @@
 import pandas as pd
+import math
 
 def read_csv():
     df = pd.read_csv("wine.tsv", delimiter="\t")
@@ -19,5 +20,50 @@ def read_csv():
     c = test.sort_values(by='class')
     print(c)
 
+## RENAME ABOVE CODE AND FINETUNE OUTCOME
 
-read_csv()
+
+def rowRead():
+    #data collection
+    with open('wine.tsv', 'r') as data:
+        header = data.readline().strip().split('\t')
+        t = ([0] * (len(header)-1))
+        t.append([0,0,0])
+        #print(t)
+        rowcount = 0
+        for row in data:
+            line = row.strip().split('\t')
+            counter = 0
+            rowcount += 1
+            for i in line:
+                try:
+                    t[counter] += float(i)
+                    counter += 1
+                    #print(t)
+                except:
+                    if i == 'A':
+                        t[-1][0] += 1
+                    if i == 'B':
+                        t[-1][1] += 1
+                    if i == 'C':
+                        t[-1][2] += 1
+
+        numb = 0
+
+        #caclculation
+        print("column".ljust(10), "mean".rjust(10), "std".rjust(7))
+        for i in t:
+            try:
+                columnHeader = header[numb]
+                meanHeader = str(round(t[numb] / rowcount, 4))
+                print(columnHeader.ljust(10), meanHeader.rjust(10))
+                numb += 1
+            except:
+
+                print('\n'"class".ljust(10), "frq".rjust(0))
+                print("A", str(i[0]).rjust(11))
+                print("B", str(i[1]).rjust(11))
+                print("C", str(i[2]).rjust(11))
+
+
+rowRead()
