@@ -47,10 +47,17 @@ def find_counterexamplesys():
 
 find_counterexamplesys()
 
+
 def mean_naive (X):
-    sum = 0
-    for i in X:
-        pass
+
+    i = 0 
+    z = 0
+    mu = 0
+    for x in X:
+        i += 1
+        z += x
+        mu = (z/i)
+    return mu
     
 def mean_improved (X):
     i = 0
