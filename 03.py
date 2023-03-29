@@ -51,3 +51,17 @@ def mean_naive (X):
     sum = 0
     for i in X:
         pass
+    
+def mean_improved (X):
+    i = 0
+    meanOld = 0
+    #we look for the meanOld and meanNew according to the formula
+    for x in X:
+        meanNew = (x+(i+1)*meanOld-meanOld)/(i+1)
+        meanOld = meanNew
+        i+=1
+        mu = meanNew
+    return meanNew
+
+print(mean_improved([1,2,3,4,5]))
+
