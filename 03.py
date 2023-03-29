@@ -63,6 +63,8 @@ def mean_improved (X):
     i = 0
     meanOld = 0
     #we look for the meanOld and meanNew according to the formula
+    #wenn in der liste kleine auf große Zahlen vorkommen, kann es zu Rundungsfehlern kommen durch die Rechenoperatoren
+    #man müsste die Annordnung #ndern.
     for x in X:
         meanNew = (x+(i+1)*meanOld-meanOld)/(i+1)
         meanOld = meanNew
@@ -71,4 +73,19 @@ def mean_improved (X):
     return meanNew
 
 print(mean_improved([1,2,3,4,5]))
+
+import random
+
+def Testumgebung():
+    X = [1]
+    diff = 0.0
+    while not diff != 0:
+        diff = abs(mean_naive(X) - mean_improved(X))
+        print(mean_naive(X))
+        print(mean_improved(X))
+        X.append(random.randint(1,2))
+        print(sum(X)/len(X))
+    return diff
+
+print(Testumgebung())
 
