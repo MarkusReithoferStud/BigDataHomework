@@ -79,13 +79,20 @@ import random
 def Testumgebung():
     X = [1]
     diff = 0.0
-    while not diff != 0:
+    #laufe die schleife durch solang die zwei funktionen subtrahiert 0 ergeben
+    while diff == 0:
         diff = abs(mean_naive(X) - mean_improved(X))
         print(mean_naive(X))
         print(mean_improved(X))
+        #append an die Liste die den zwei Funktionen übergeben wird einen Random wert
         X.append(random.randint(1,2))
         print(sum(X)/len(X))
     return diff
+
+#WerteBereich wäre bei uns variable sowie die Anzahl der Zahlen, Startwert haben wir 1 in der Liste.
+#Ist sicher nicht der gewünschte approach aber wir verstehen die Angabe nicht 100%
+#Werte für random können unterschiedlich sein, ist mehr oder weniger egal.
+#Terminieren tut die while schleife immer nach 5 oder 7 oder 8 ... Runs, nicht vorhersagbar
 
 print(Testumgebung())
 
