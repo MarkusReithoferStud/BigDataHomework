@@ -2,6 +2,7 @@
 #Aufgabenblatt 4
 
 #Aufgabe 9:
+print("Aufgabe 9")
 def mean_naive1 (X):
     s = 0; i = 0                # initialize (partial) sum and counter
     for x in X:                 # traverse the stream elements
@@ -48,6 +49,12 @@ print('exact:     %s.%s' % (t[:-r], t[-r:]))
 print('kahan:     %.18g' % kahanMean(X))
 print('naive1:    %.18g' % mean_naive1(X))
 print('improved2: %.18g' % mean_improved2(X))
+exa = 2249725209498336.658365
+print(exa - kahanMean(X))
+print(exa - mean_naive1(X))
+print(exa - mean_improved2(X))
+#Zeigt die verschiedenen abweichungen, jedoch ist auch dies durch die berechnung
+#nicht ganz genau aber es gibt einen guten einblick wie groß die differenz ist.
 print("-"*30)
 # Wie man erkennt anhand der print ausgabe ist der improved2 und und naive1 ansatz
 #am weitesten vom exact weg, nicht nur bei der nachkommastelle sondern auch bei der Ganzzahl.
@@ -55,3 +62,16 @@ print("-"*30)
 #unterscheiden sich die zwei
 
 #Aufgabe 10
+print("Aufgabe 10")
+import math
+
+def var_naive(X):
+    i = 0
+    z = 0
+    z2 = 0
+    q = 0
+    q2 = 0
+    for x in X:
+        z2 = z + x
+        q2 = q+x*x
+        i += 1
