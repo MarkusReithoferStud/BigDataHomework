@@ -14,7 +14,7 @@ def mean_naive1 (X):
 def mean_improved2 (X):
     mu = 0; i = 0               # initialize (partial) mean and counter
     for x in X:                 # traverse the stream elements
-        i  += 1                 # count the current element
+        i += 1                 # count the current element
         mu += (x-mu) /i         # update the (partial) mean
     return mu                   # return the computed mean
 
@@ -31,19 +31,17 @@ def kahanMean(X):
         counter += 1
     return z/counter    # the correct and the actual increase
 
-print(mean_naive1([1,2,3,4,5]))
-print(mean_improved2([1,2,3,4,5]))
-print(kahanMean([1,2,3,4,5]))
-
 from random import seed, randrange
 
 seed(7)                         # init. pseudo-random number generator
 r = 6; n = 10**r                # (decimal logarithm of) the number of values
 Y = [randrange(0, 2**52) for i in range(n)]
 X = [float(y) for y in Y]       # convert to floating point numbers
-Z = [int(x)   for x in X]       # convert back to integer (sanity check)
+Z = [int(x) for x in X]       # convert back to integer (sanity check)
 print('ok' if Y == Z else 'fail') # check whether result equals original
 t = '%d' % sum(Y)               # print exact mean from integer sum
+import statistics
+o = '%d' % (statistics.variance(Y))
 exact = [t[:-r], t[-r:]]
 print('exact:     %s.%s' % (t[:-r], t[-r:]))
 print('kahan:     %.18g' % kahanMean(X))
@@ -64,14 +62,47 @@ print("-"*30)
 #Aufgabe 10
 print("Aufgabe 10")
 import math
-
 def var_naive(X):
     i = 0
     z = 0
-    z2 = 0
     q = 0
-    q2 = 0
     for x in X:
-        z2 = z + x
-        q2 = q+x*x
+        z += x
+        q += x*x
         i += 1
+        if i > 1:
+            varel = (1/(i-1))*(q-1/i*(z*z))
+    return varel
+
+def var_improved(X):
+    i = 0
+    s = 0
+    p = 0
+    for x in X:
+        i += 1
+        p += x
+        u = p/i
+
+        s = s*s+(i/(i+1)*((x-u)*(x-u)))
+    return s
+#print(var_improved([1,2,3,4]))
+
+def var_improved2(X):
+    i = 0
+    u = 0
+    S = 0
+    for x in X:
+        i += 1
+        Unext = u + (x - u) / i
+        S = S + (x - u)*(x - Unext)
+        u = Unext
+    return S/(i-1)
+
+lst = [randrange(0, 2**52) for i in range(n)]
+Xlst = [float(y) for y in lst]
+print(var_naive(Xlst))
+print(var_improved2(Xlst))
+var_exact = statistics.variance(Xlst)
+print(var_exact)
+
+print("-"*30)
