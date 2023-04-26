@@ -34,29 +34,40 @@ def mv_recursive(X, leftCut=0, RightCut=0):
 # Für einen Online Approach brauchen wir eine Art Buffer der mitzählt auf welchem Level wir uns befinden
 # in diesem Buffer sieht man sich immer nur zwei elemente an für die die Varianz und der Mean berechnet werden
 #
+#wir wissen, dass dieser Ansatz nicht vollständig und richtig ist, wir haben nicht verstanden wie wir 
+#die for schleifen ineiander kosntruieren können, dass  man weiß, ob man zur nächst höheren Ebene gelangen soll oder zum nächsten Element weiter gehen soll
+
+
 def mv_online (X):
     buffer = []
     counter = 0
-    buffer.append((None, None))
+    buffer.append((None, None)) 
     var = 0
+    mu = 0 
     for x in X:
-        buffer.append((None, None))
-        print(buffer[counter][0])
+        buffer.append((None, None)) # wissen die Laenge nicht davor, also wird mit jedem Element, ein gröoesseres Buffer Array erstellt
+        print(buffer[counter][0]) 
         if buffer[0][0] == None:
-            buffer[0][0] = x
-            #buffer[counter][1] = var
-        elif buffer[0][0] != None:
-            mean = (buffer[0][0] + x)/2
-            counter += 1
-            if buffer[0+counter][0] == None:
-                buffer[0+counter][0] = mean
+            buffer[0][0] = x # Tupel lässt sich so nicht implementier, wussten keine bessere Loesung
+            buffer[counter][1] = var
+        elif buffer[0][0] != None and len(buffer) > 1: # beim allerersten wird einfach nur in den Buffer null geschrieben, dann wird wenn ein weiteres dazu kommt, gerechnet
+            mu = (buffer[0][0] + x)/2
+            var = ((buffer[0][1] - mu)**2 + (x - mu)**2) / 2
+            counter += 1 # und in den hoeheren Buffer geschrieben 
+            if buffer[0+counter][0] == None: # hier treten die Probleme auf, man muss gleichzeitig abchecken
+                buffer[0+counter][0] = mu #ob in der Ebene höher ein Element schon drin ist zum verechnen oder ob man weiter "gehen" muss
                 buffer[0] = (None, None)
             elif buffer[0+counter][0] != None:
                 buffer[counter+1][0] = (buffer[counter-1][0] + buffer[counter][0])/2
+                buffer[counter+1][1] = ((buffer[0][1] - (buffer[0][1] + x)/2)**2 + ((buffer[counter][1])/2 - (buffer[0][1] + x)/2)**2) /2
                 buffer[counter-1][0] = (None, None)
                 buffer[counter][0] = (None, None)
+        else:
+            return x,0 #falls nur ein Element in der Liste
 
-    return buffer
+    return mu, var
+
+print(mv_online([1,2,3]))
 
 
 def mean_naive (X):
