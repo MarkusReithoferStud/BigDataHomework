@@ -1,7 +1,8 @@
-import random
+#Aufgabe 13
 # Die Ansätze unten aufgelistet sind die optimal Ansätze für die jeweilige Aufgabe, z.b der naive Approach
 # Dazu kommen ist unsere Funktion von mv_recursive die durch rekursives aufrufen von sich selbst den mean
 # und die varianz berechnen
+# ein anderer Ansatz ergab bei uns immer einen Rekursion Error wegen python rekursion limit
 
 def mv_recursive(X, leftCut=0, RightCut=0):
     if RightCut == 0:
@@ -22,11 +23,40 @@ def mv_recursive(X, leftCut=0, RightCut=0):
     meanRigth, sQRight = mv_recursive(X, midEle, RightCut)   # recursive call function for right part meanRigth = meanEle sQRight = sumSqEle
     nleft = midEle - leftCut    # count of elements between lft and midEle
     nright = RightCut - midEle    # count of elements between midEle and rgt
+
     #calc mean
     mu = (nleft/n) * meanLeft + (nright/n) * meanRigth   # mu = mean of both parts, weighted by nleft/nright proportion
     #calc sigma
     sigma = ((nleft-1)/(n-1))*sQLeft + ((nright-1)/(n-1))*sQRight + (nleft/n)*(nright/(n-1)) * (meanLeft-meanRigth)**2
     return mu, sigma
+
+#Aufgabe 14
+# Für einen Online Approach brauchen wir eine Art Buffer der mitzählt auf welchem Level wir uns befinden
+# in diesem Buffer sieht man sich immer nur zwei elemente an für die die Varianz und der Mean berechnet werden
+#
+def mv_online (X):
+    buffer = []
+    counter = 0
+    buffer.append((None, None))
+    var = 0
+    for x in X:
+        buffer.append((None, None))
+        print(buffer[counter][0])
+        if buffer[0][0] == None:
+            buffer[0][0] = x
+            #buffer[counter][1] = var
+        elif buffer[0][0] != None:
+            mean = (buffer[0][0] + x)/2
+            counter += 1
+            if buffer[0+counter][0] == None:
+                buffer[0+counter][0] = mean
+                buffer[0] = (None, None)
+            elif buffer[0+counter][0] != None:
+                buffer[counter+1][0] = (buffer[counter-1][0] + buffer[counter][0])/2
+                buffer[counter-1][0] = (None, None)
+                buffer[counter][0] = (None, None)
+
+    return buffer
 
 
 def mean_naive (X):
