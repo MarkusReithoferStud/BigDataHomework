@@ -2,6 +2,7 @@ import random
 
 #Aufgabe 15
 print("Aufgabe 15")
+# nach algorithmus auf den Folien entwickelt
 def boyerMoore(X):
     counter = 0
     candidate = None
