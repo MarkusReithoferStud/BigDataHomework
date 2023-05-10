@@ -33,6 +33,8 @@ def showText():
 print("-"*30)
 #Aufgabe 19
 
+# implementierung von ersten der drei Teile, dabei haben wir eine hash funktion k bitmaksen (in unserem fall num_bitmasks)
+# ist abhängig vom hash wert
 
 import hashlib
 
@@ -75,4 +77,9 @@ for element in stream:      #executes the code by going through the stream
     process_element(bitmasks, element)      # calling the function with the set bitmask and the element from the stream
 
 print(estimate_unique(bitmasks))
+
+# zweiter Teil mittels zyklischen durchlaufen aber nicht abhängig vom hash wert
+
+# k zuf¨alligen (aber festen) Werten die zum Ergebnis der Hash-Funktion addiert werden, um k verschiedene Hash-Werte zu erhalten, mit denen jeweils eine
+# Bitmaske angepaßt wird.
 
