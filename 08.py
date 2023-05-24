@@ -223,12 +223,15 @@ print(results)
 
 # Zusatzaufgabe test
 
-# Erstellen Sie einen neuen Bloom-Filter
+# Neuer Bloom-Filter
 bloom_filter = BloomFilter(2**20, hash_functions)
 
-# Erstellen Sie eine Liste von Strings, einige davon sind Duplikate
+# Erstellen einer Liste von Strings, einige davon sind Duplikate
 stringsListZusatz = ["Austria", "Spain", "France", "Austria", "Germany", "Sweden", "Germany"]
 
-# Fügen Sie jeden String zum Bloom-Filter hinzu und prüfen Sie auf Duplikate
+# check für duplikate
+#for string in pride_and_prejudice():
+#    bloom_filter.add_check_duplicate(string)
+
 for string in stringsListZusatz:
     bloom_filter.add_check_duplicate(string)
