@@ -1,12 +1,12 @@
 #Aufgabe 25
 def merge_sort(lst):
-    if len(lst) <= 1:  # Basisfall: Eine Liste mit 0 oder 1 Elementen ist bereits sortiert
+    if len(lst) <= 1:  # Wenn Liste mit 0 oder 1 Elementen -> ist bereits sortiert
         return lst
     # Teile die Liste in zwei Hälften
     #nehme unteres Element bei ungerade durch //
     mid = len(lst) // 2
-    left_half = lst[:mid]
-    right_half = lst[mid:]
+    left_half = lst[:mid] #mid excluded
+    right_half = lst[mid:] #mid included
     #print(left_half)
     #print(right_half)
     # Sortiere die beiden Hälften (rekursiv)
@@ -16,18 +16,18 @@ def merge_sort(lst):
     return merge(left_half, right_half)
 
 def merge(left, right):
-    mergedList = []
-    while left and right:  # Solange beide Listen nicht leer sind
-        if left[0] <= right[0]:  # Nimm das kleinere Element von beiden Listen
+    mergedLst = []
+    while left and right:  # Solange beide! Listen nicht leer sind
+        if left[0] <= right[0]:  # Nimm das kleinere Element von beiden Listen weg mit pop und hänge element an mit append
             mergedList.append(left.pop(0))
         else:
             mergedList.append(right.pop(0))
     # Füge die übrigen Elemente der nicht leeren Liste hinzu
     if left:
-        mergedList.extend(left)
+        mergedLst.extend(left) #nicht append, weil sonsz als Liste angehängt
     if right:
-        mergedList.extend(right)
-    return mergedList
+        mergedLst.extend(right)
+    return mergedLst
 
 
 
@@ -38,7 +38,7 @@ random_numbers = [random.randint(1, 10) for _ in range(10)]
 
 sorted_numbers = merge_sort(random_numbers)
 
-# Überprüfen Sie, ob die Liste sortiert ist (die nächsten beiden Zahlen sollten identisch sein)
+# Überprüfung ob die Liste sortiert ist (die nächsten beiden Zahlen sollten identisch sein)
 print(sorted_numbers)
 print(sorted_numbers == sorted(random_numbers))
 #print(random_numbers)
@@ -54,7 +54,7 @@ def merge_sort_online(X):
         sorted_element = [x]
         for level in range(len(buffer)):
             # wenn level von buffer leer ist -> True
-            # Wenn das aktuelle Level im Puffer leer ist, speichern wir den bereits sortierten Wert in diesem Level.
+            # wenn das aktuelle Level im Puffer leer ist, speichern wir den bereits sortierten Wert in diesem Level.
             # Falls das letzte Element im Puffer nicht leer ist, fügen wir ein weiteres None Element am Ende hinzu.
             if not buffer[level]:
                 buffer[level] = sorted_element
@@ -72,11 +72,11 @@ def merge_sort_online(X):
         # zwischenzeitig das oberste Element ist die sortierte Liste
         buffer[-1] = sorted_element
 
-    #Hier kombinieren wir alle gemischten Elemente im Puffer zu einer endgültig sortierten Liste.
+    # alle gemischten Elemente im Puffer werden kombiniert zu einer endgültig sortierten Liste.
     sorted_list = []
     for level in range(len(buffer)):
         #if true skip iteration
-        if not buffer[level]: continue
+        if not buffer[level]: continue # anonsten nächste zeile ausgeben
         sorted_list = merge(buffer[level], sorted_list)
     return sorted_list
 
