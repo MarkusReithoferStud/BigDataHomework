@@ -1,7 +1,7 @@
 import time
 import random
 import math
-
+# Aufgabe 27
 def sift(H, l, r, v):
     i = 2*l + 1  # Index des ersten Kindes berechnen
     while i < r:  # Absink-Schleife (solange im Heap)
@@ -123,3 +123,62 @@ for n in ns:
 print("n\tMergesort Time\tMergesort Time Ratio\tHeapsort Time\tHeapsort Time Ratio")
 for n, merge_time, merge_time_ratio, heap_time, heap_time_ratio in results:
     print(f"{n}\t{merge_time}\t{merge_time_ratio}\t{heap_time}\t{heap_time_ratio}")
+
+# Aufgabe 28
+def sift_down(heap, start, end):
+    root = start
+    while True:
+        child = 2 * root + 1   # linkes Kind von root
+        if child > end:        # root ist Blatt
+            break
+        # Wenn das rechte Kind existiert und größer als das linke Kind ist
+        if child + 1 <= end and heap[child] > heap[child + 1]:
+            child += 1         # rechtes Kind von root
+        # Wenn das kleinste Kind kleiner als die Wurzel ist, tauschen wir sie aus
+        if heap[root] > heap[child]:
+            heap[root], heap[child] = heap[child], heap[root]
+            root = child
+        else:
+            break
+
+def build_min_heap(heap):
+    # Starte vom letzten inneren Knoten
+    for start in range((len(heap) - 2) // 2, -1, -1):
+        sift_down(heap, start, len(heap) - 1)
+
+
+def k_way_merge_sort(input_list, k):
+    n = len(input_list)
+    part_len = n // k
+
+    sorted_parts = []
+    for i in range(k):
+        start = i * part_len
+        end = start + part_len if i < k-1 else n
+        part = sorted(input_list[start:end])
+        sorted_parts.append(part)
+
+    result = []
+    heap = [(part[0], i, 0) for i, part in enumerate(sorted_parts) if part]
+    build_min_heap(heap)
+
+    while heap:
+        val, list_idx, element_idx = heap[0]  # nimm das kleinste Element (die Wurzel des Heaps)
+        result.append(val)
+
+        # Nimm das nächste Element aus der gleichen Liste, sofern es existiert
+        if element_idx + 1 < len(sorted_parts[list_idx]):
+            heap[0] = (sorted_parts[list_idx][element_idx+1], list_idx, element_idx+1)
+        else:  # wenn nicht, entferne die Wurzel und setze das letzte Blatt an ihre Stelle
+            heap[0] = heap[-1]
+            heap.pop()
+
+        if heap:  # Prüfe, ob der Haufen leer ist, bevor du versuchst, das Wurzelelement nach unten zu verschieben
+            sift_down(heap, 0, len(heap))  # sifte das neue Wurzelelement herunter
+
+    return result
+
+# Testen Sie die Funktion mit einer Liste von Zufallszahlen
+test_list = [random.randint(1, 1000) for _ in range(10000)]
+print(k_way_merge_sort(test_list, 3))
+
